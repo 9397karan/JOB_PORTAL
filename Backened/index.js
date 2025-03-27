@@ -7,7 +7,8 @@ import connectCloudinary from "./utils/cloudinary.js";
 
 //import routes
 import userRoutes from "./routes/user.routes.js"
-
+import jobRoutes from "./routes/job.routes.js"
+import aiRecommendation from "./routes/aiRecommend.js"
 dotenv.config();
 connectCloudinary()
 
@@ -24,6 +25,8 @@ app.get('/',(req,res)=>{
     res.send('working')
 })
 app.use("/api/v1/user",userRoutes);
+app.use("/api/v1/recruiter",jobRoutes);
+app.use('/api/v1/ai',aiRecommendation)
 
 app.listen(port,()=>{
     console.log(`listening`)

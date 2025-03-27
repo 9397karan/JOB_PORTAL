@@ -200,7 +200,7 @@ const loginRecruiter = async (req, res) => {
             return res.status(400).json({ message: "Please fill all fields" });
         }
 
-        const recruiter = await Recruiter.findOne({ email });
+        const recruiter = await Recruiter.findOne({ email }).populate('jobs');
         if (!recruiter) {
             return res.status(400).json({ message: "Recruiter not found, register first" });
         }

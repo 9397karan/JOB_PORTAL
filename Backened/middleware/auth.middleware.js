@@ -21,7 +21,7 @@ res.cookie('accessToken',accessToken,{
     secure:true,
     maxAge:5*60*1000
 })
-
+req.user=user
     next()
 }
 export default authenticate
