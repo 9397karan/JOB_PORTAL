@@ -3,6 +3,7 @@ import crypto from "crypto"
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
+import {v2 as cloudinary} from "cloudinary"
 import Recruiter from "../models/recruiter.model.js"
 dotenv.config()
 
@@ -106,24 +107,37 @@ res.cookie('refreshToken',refreshtoken,{
 const updateJobSeeker = async (req, res) => {
     try {
       const { id } = req.params;
-      const { name, email, phone, profile_photo, resume, skills, experience, password } = req.body;
+      const { name, email, phone, skills, experience, password } = req.body;
   
       let user = await JobSeeker.findById(id);
-
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
-
+  
       if (name) user.name = name;
       if (email) user.email = email;
       if (phone) user.phone = phone;
-      if (profile_photo) user.profile_photo = profile_photo;
-      if (resume) user.resume = resume;
       if (skills) user.skills = skills;
       if (experience) user.experience = experience;
-
+  
       if (password) {
         user.password = await bcrypt.hash(password, 10);
+      }
+  
+      if (req.files) {
+        if (req.files.profile_photo && req.files.profile_photo.length > 0) {
+          const uploadedProfilePhoto = await cloudinary.uploader.upload(
+            req.files.profile_photo[0].path
+          );
+          user.profile_photo = uploadedProfilePhoto.secure_url;
+        }
+  
+        if (req.files.resume && req.files.resume.length > 0) {
+          const uploadedResume = await cloudinary.uploader.upload(
+            req.files.resume[0].path
+          );
+          user.resume = uploadedResume.secure_url;
+        }
       }
   
       await user.save();

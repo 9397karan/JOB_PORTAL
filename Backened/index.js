@@ -3,12 +3,13 @@ import express from "express"
 import cookieParser from "cookie-parser"
 import dotenv from "dotenv"
 import dbConnect from "./utils/db.connect.js";
-
+import connectCloudinary from "./utils/cloudinary.js";
 
 //import routes
 import userRoutes from "./routes/user.routes.js"
 
 dotenv.config();
+connectCloudinary()
 
 const app=express()
 const port=process.env.PORT || 6000
