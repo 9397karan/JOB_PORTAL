@@ -5,8 +5,7 @@ const RecruiterSchema = new mongoose.Schema({
     password: { type: String, required: true },
     phone: { type: String },
     companyName: { type: String, required: true },
-    address: { type: String },
-    website: { type: String },
+    
     jobs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Job' }]
 }, { timestamps: true });
 

@@ -150,7 +150,7 @@ const updateJobSeeker = async (req, res) => {
 
   const registerRecruiter = async (req, res) => {
     try {
-        const { name, email, password, phone, companyName, address } = req.body;
+        const { name, email, password, phone, companyName } = req.body;
 
         if (!name || !email || !password || !companyName) {
             return res.status(400).json({ message: "Please fill all required fields" });
@@ -168,7 +168,7 @@ const updateJobSeeker = async (req, res) => {
             password: hashedPassword,
             phone,
             companyName,
-            address,
+            
         });
 
         
@@ -232,7 +232,7 @@ const loginRecruiter = async (req, res) => {
 const updateRecruiter = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, email, phone, companyName, address, website, password } = req.body;
+        const { name, email, phone, companyName, password } = req.body;
 
         let recruiter = await Recruiter.findById(id);
         if (!recruiter) {
